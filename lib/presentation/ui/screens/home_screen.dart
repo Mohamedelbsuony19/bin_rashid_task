@@ -22,40 +22,52 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocConsumer<ProductsBloc, ProductsState>(
             builder: (context, state) {
               return state.maybeMap(
-                orElse: () => Container(),
-                loadInProgress: (value) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-                loadSuccess: (value) {
-                  if (value.products == null) {
-                    return const Center(
-                      child: Text("No Products Found"),
+                  orElse: () => Container(),
+                  loadInProgress: (value) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     );
-                  }
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    child: ListView.builder(
-                      itemCount: value.products?.length,
-                      itemBuilder: (context, index) {
-                        final product = value.products?[index];
-                        return ProductItemView(
-                          model: product!,
-                          onTap: () {
-                            ///navigate to product details
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailsScreen(model: product)));
-                          },
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
+                  },
+                  loadSuccess: (value) {
+                    if (value.products == null) {
+                      return const Center(
+                        child: Text("No Products Found"),
+                      );
+                    }
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      child: ListView.builder(
+                        itemCount: value.products?.length,
+                        itemBuilder: (context, index) {
+                          final product = value.products?[index];
+                          return ProductItemView(
+                            model: product!,
+                            onTap: () {
+                              ///navigate to product details
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsScreen(
+                                              model: product)));
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  loadFailure: (value) {
+                    return const Center(
+                      child: Scaffold(
+                        body: Center(
+                          child: Text("there was an error "),
+                        ),
+                      ),
+                    );
+                  });
             },
             listener: (context, state) => Container()),
       ]),

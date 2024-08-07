@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class ProductItemView extends StatelessWidget {
   final ProductModel model;
-    final GestureTapCallback? onTap;
+  final GestureTapCallback? onTap;
 
   const ProductItemView({
     super.key,
-    required this.model,required this.onTap,
+    required this.model,
+    required this.onTap,
   });
 
   @override
@@ -17,6 +18,7 @@ class ProductItemView extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
@@ -33,27 +35,35 @@ class ProductItemView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: ClipOval(
-                  child: Image.network(
-                    model.image,
-                    fit: BoxFit.cover,
-                    height: 150,
-                    width: 150,
-                  ),
-                ),
-              ),
               const SizedBox(height: 10),
-              Text(
-                model.title,
-                style: Theme.of(context).textTheme.headlineSmall,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Center(
+                    child: ClipOval(
+                      child: Image.network(
+                        model.image,
+                        fit: BoxFit.cover,
+                        height: 150,
+                        width: 150,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Text(
+                      model.title,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 5),
               Text(
                 '\$${model.price}',
                 style: Theme.of(context)
                     .textTheme
-                    .labelMedium
+                    .labelLarge
                     ?.copyWith(color: Colors.green),
               ),
               const SizedBox(height: 5),
@@ -61,11 +71,12 @@ class ProductItemView extends StatelessWidget {
                 model.category,
                 style: Theme.of(context)
                     .textTheme
-                    .labelMedium
-                    ?.copyWith(color: Colors.grey),
+                    .labelLarge
+                    ?.copyWith(color: Colors.lightBlue),
               ),
               const SizedBox(height: 10),
               Text(
+                maxLines: 3,
                 model.description,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
